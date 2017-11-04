@@ -7,6 +7,7 @@ import litman from './litman';
 class PeerEditor extends Component {
   constructor(props) {
     super(props);
+    this.state = { };
     this.change = this.change.bind(this);
     this.saveSuggestion = this.saveSuggestion.bind(this);
   }
@@ -24,7 +25,7 @@ class PeerEditor extends Component {
     return await nodeCat(hash);
   }
   async componentDidMount() {
-    const text = getFromIpfs(this.props.hash);
+    const text = await this.getFromIpfs(this.props.hash);
     this.setState({ text: text, newText: text });
     const [eth, litToken] = litman();
     // load pls
@@ -36,13 +37,16 @@ class PeerEditor extends Component {
     const suggestion = diff(this.state.text, this.state.newText);
     // save pls
     const [eth, litToken] = litman();
-    
+
   }
   render() {
     return (
       <div>
         <h2>Peer Edit</h2>
-        <textarea onChange={this.change}>{this.state.text !== null && this.state.text}</textarea>
+          {this.state.text !== null &&
+            <textarea onChange={this.change}>{this.state.text}</textarea>}
+          {this.state.text === null && <p>Loading...</p>}
+        
         <button>Save suggestion</button>
       </div>
     );

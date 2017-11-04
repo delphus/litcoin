@@ -5,6 +5,7 @@ import About from './About';
 import Coins from './Coins';
 import NewDocument from './NewDocument';
 import Contact from './Contact';
+import PeerEditor from './PeerEditor'
 import logo from './logo.png';
 import './App.css';
 
@@ -22,6 +23,7 @@ class App extends Component {
               <Route path="/doc" component={NewDocument} />
               <Route path="/coins" component={Coins} />
               <Route path="/contact" component={Contact} />
+              <Route path="/editor" component={PeerEditor} />
             </div>
           </div>
           <nav>
@@ -29,6 +31,7 @@ class App extends Component {
               <li><Link to="/">Litcoin</Link></li>
               <li><Link to="/coins">Get Coin</Link></li>
               <li><Link to={"/doc/" + uuid()}>New Document</Link></li>
+              <li><Link to="/editor">Peer Edit</Link></li>
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </nav>
