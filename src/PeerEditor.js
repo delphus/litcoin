@@ -3,39 +3,46 @@ import IPFS from 'ipfs';
 import promisify from "es6-promisify";
 import diff from "component-diff";
 import litman from './litman';
+import toString from 'stream-to-string';
 
 class PeerEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = { };
+    this.state = { status: "Loading IPFS", text: "Loading..." };
     this.change = this.change.bind(this);
     this.saveSuggestion = this.saveSuggestion.bind(this);
   }
-  async getFromIpfs(hash) {
-    const node = new IPFS({
-      repo: String(Math.random() + Date.now()),
-      EXPERIMENTAL: { // enable experimental features
-        pubsub: true,
-        sharding: true, // enable dir sharding
-      }
-    });
-    const nodeOn = promisify(node.on);
-    const nodeCat = promisify(node.files.cat);
-    await nodeOn('ready');
-    return await nodeCat(hash);
+  getFromIpfs(hash) {
+    return new Promise(resolve => {
+      console.log('ipfs', hash);
+      const node = new IPFS({
+        repo: String(Math.random() + Date.now()),
+        EXPERIMENTAL: { // enable experimental features
+          pubsub: true,
+          sharding: true, // enable dir sharding
+        }
+      });
+      node.on('ready', () => {
+        this.setState({ status: "Getting IPFS file" })
+        node.files.cat(hash, async (err, stream) => {
+          resolve(await toString(stream));
+        });
+      });
+    })
+    
   }
   async componentDidMount() {
-    const text = await this.getFromIpfs(this.props.hash);
-    this.setState({ text: text, newText: text });
     const [eth, litToken] = litman();
-    // load pls
+    const doc = await litToken.getDocument(this.props.match.params.index);
+    console.log(doc);
+    const text = await this.getFromIpfs(doc.hashID);
+    this.setState({ text: text, newText: text });
+    this.setState({ status: "Done" })
   }
   change(e) {
     this.setState({ newText: e.target.textContent });
   }
   saveSuggestion() {
-    const suggestion = diff(this.state.text, this.state.newText);
-    // save pls
     const [eth, litToken] = litman();
 
   }
@@ -43,11 +50,10 @@ class PeerEditor extends Component {
     return (
       <div>
         <h2 className="major">Peer Edit</h2>
-          {this.state.text !== null &&
-            <textarea onChange={this.change}>{this.state.text}</textarea>}
-          {this.state.text === null && <p>Loading...</p>}
+        <textarea onChange={this.change}>{this.state.text}</textarea>
         
         <button>Save suggestion</button>
+        <p>{this.state.status}</p>
       </div>
     );
   }

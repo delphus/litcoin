@@ -20,10 +20,10 @@ class App extends Component {
           <div className="content">
             <div className="inner">
               <Route path="/" exact component={About} />
-              <Route path="/doc" component={NewDocument} />
+              <Route path="/doc/:uuid" component={NewDocument} />
               <Route path="/coins" component={Coins} />
               <Route path="/contact" component={Contact} />
-              <Route path="/editor" component={PeerEditor} />
+              <Route path="/editor/:index" component={PeerEditor} />
             </div>
           </div>
           <nav>

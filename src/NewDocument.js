@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import IPFS from 'ipfs';
-
+import litman from './litman';
 
 
 class NewDocument extends Component {
@@ -26,9 +26,11 @@ class NewDocument extends Component {
         node.files.add({
           path: "/document",
           content: fileBuffer
-        }, (err, files) => {
-          this.setState({ status: "COMPLETE", hash: files[0].hash });
-          console.log(err, files);
+        }, async (err, files) => {
+          const hash = files[0].hash;
+          this.setState({ status: "COMPLETE", hash: hash });
+          const [eth, litToken] = litman();
+          litToken.createDocument(this.props.match.params.uuid, hash, 0, { from: await eth.coinbase() });
         });
       });
     };
