@@ -13,11 +13,11 @@ class App extends Component {
     return (
       <div className="App">
         <header id="header">
-          <div class="logo">
-            <img src={logo} width="85" height="85" class="logo" alt="" />
+          <div className="logo">
+            <img src={logo} width="85" height="85" className="logo" alt="" />
           </div>
-          <div class="content">
-            <div class="inner">
+          <div className="content">
+            <div className="inner">
               <Route path="/" exact component={About} />
               <Route path="/doc" component={NewEditor} />
               <Route path="/coins" component={Coins} />
@@ -39,7 +39,7 @@ class App extends Component {
         </div>
 
         <footer id="footer">
-          <p class="copyright">&copy; <a href="https://github.com/undystopia">Undystopia Organization.</a></p>
+          <p className="copyright">&copy; <a href="https://github.com/undystopia">Undystopia Organization.</a></p>
         </footer>
       </div>
     );
