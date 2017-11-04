@@ -19,7 +19,9 @@ export default class Coins extends React.Component {
     } else {
        return (
         <div>
-          {this.state.account}: {this.state.balance} LIT @ block {this.state.blockNum}
+          <h2>Account Balance</h2>
+          <p><code>{this.state.account}</code>:
+          <strong>{this.state.balance} LIT</strong> @ block {this.state.blockNum}</p>
         </div>
       );
     }
@@ -37,10 +39,9 @@ export default class Coins extends React.Component {
     this.setState({
       blockNum: (await eth.blockNumber()).toString(),
       account: await eth.coinbase(),
-      balance: (await litToken.balanceOf(await eth.coinbase()))[0].toString(),
+      // HACK: toNumber only preserves 53 bits -- if we have > like billions of LIT, this is problem
+      balance: (await litToken.balanceOf(await eth.coinbase()))[0].toNumber() / 100,
       ready: true
     });
-
-    
   }
 }
