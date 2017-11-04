@@ -10,6 +10,7 @@ class Navigation extends Component {
     return (
       <div className="Navigation">
           <Link to={"/doc/" + uuid()}>Create New Document</Link>
+          <button></button>
       </div>
     );
   }
