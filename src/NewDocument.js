@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import IPFS from 'ipfs';
 
-class NewEditor extends Component {
+class NewDocument extends Component {
   handleFileUpload(event) {
     const fr = new FileReader();
     fr.onload = function() {
@@ -29,4 +29,4 @@ class NewEditor extends Component {
   }
 }
 
-export default NewEditor;
+export default NewDocument;
