@@ -15,7 +15,7 @@ export default class Coins extends React.Component {
     } else {
        return (
         <div>
-          <h2>Account Balance</h2>
+          <h2 className="major">Account Balance</h2>
           <p><code>{this.state.account}</code>:
           <strong>{this.state.balance} LIT</strong> @ block {this.state.blockNum}</p>
         </div>

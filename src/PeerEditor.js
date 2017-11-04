@@ -42,7 +42,7 @@ class PeerEditor extends Component {
   render() {
     return (
       <div>
-        <h2>Peer Edit</h2>
+        <h2 className="major">Peer Edit</h2>
           {this.state.text !== null &&
             <textarea onChange={this.change}>{this.state.text}</textarea>}
           {this.state.text === null && <p>Loading...</p>}

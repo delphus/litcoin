@@ -37,7 +37,7 @@ class NewDocument extends Component {
   render() {
     return (
       <div>
-        <h2>New Document</h2>
+        <h2 className="major">New Document</h2>
         <p>
           Please select a <strong>plain text</strong> file that you want peer edited. This will <strong>cost 20 LIT</strong>.
         </p>
