@@ -38,7 +38,8 @@ class NewDocument extends Component {
         {this.state.status === "WAITING" && <p>Waiting for upload...</p>}
         {this.state.status === "UPLOADING" && <p>Uploading...</p>}
         {this.state.status === "COMPLETE" &&
-          <p>Document uploaded as <code>/ipfs/{this.state.hash}</code>.</p>}
+          <p>Document uploaded as <code>/ipfs/{this.state.hash}</code>.
+            The file may take a while to show up on all IPFS nodes.</p>}
       </div>
     );
   }
