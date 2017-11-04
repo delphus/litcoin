@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import Navigation from './Navigation';
+import Editor from './Editor';
 import logo from './logo.png';
 import './App.css';
 
@@ -13,6 +16,9 @@ class App extends Component {
             A flexible, peer-editing based crypto token
           </p>
         </header>
+
+        <Route path="/" exact component={Navigation} />
+        <Route path="/doc" component={Editor} />
       </div>
     );
   }
