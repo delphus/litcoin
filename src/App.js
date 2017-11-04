@@ -3,7 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import uuid from 'uuid';
 import About from './About';
 import Coins from './Coins';
-import NewEditor from './NewEditor';
+import NewDocument from './NewDocument';
 import Contact from './Contact';
 import logo from './logo.png';
 import './App.css';
@@ -19,7 +19,7 @@ class App extends Component {
           <div className="content">
             <div className="inner">
               <Route path="/" exact component={About} />
-              <Route path="/doc" component={NewEditor} />
+              <Route path="/doc" component={NewDocument} />
               <Route path="/coins" component={Coins} />
               <Route path="/contact" component={Contact} />
             </div>
