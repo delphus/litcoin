@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 
 class NewEditor extends Component {
   upload() {
-    // upload to ipfs
+    const IPFS = require('ipfs')
+    const node = new IPFS()
+    ipfs.files.add(data, function(err, files) {
+    });
   }
   render() {
     return (
