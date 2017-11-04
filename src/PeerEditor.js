@@ -12,7 +12,7 @@ class PeerEditor extends Component {
     this.change = this.change.bind(this);
     this.saveSuggestion = this.saveSuggestion.bind(this);
   }
-  getFromIpfs(hash) {
+  async getFromIpfs(hash) {
     return new Promise(resolve => {
       console.log('ipfs', hash);
       const node = new IPFS({
@@ -25,11 +25,13 @@ class PeerEditor extends Component {
       node.on('ready', () => {
         this.setState({ status: "Getting IPFS file" })
         node.files.cat(hash, async (err, stream) => {
-          resolve(await toString(stream));
+          const string = await toString(stream);
+          console.log(stream);
+          console.log(string);
+          resolve(string);
         });
       });
-    })
-    
+    });
   }
   async componentDidMount() {
     const [eth, litToken] = litman();
@@ -50,7 +52,7 @@ class PeerEditor extends Component {
     return (
       <div>
         <h2 className="major">Peer Edit</h2>
-        <textarea onChange={this.change}>{this.state.text}</textarea>
+        <div contentEditable onChange={this.change}>{this.state.text}</div>
         
         <button>Save suggestion</button>
         <p>{this.state.status}</p>
