@@ -16,7 +16,11 @@ class NewDocument extends Component {
       const data = fr.result;
       const fileBuffer = new Buffer(data);
       const node = new IPFS({
-        repo: String(Math.random() + Date.now())
+        repo: String(Math.random() + Date.now()),
+        EXPERIMENTAL: { // enable experimental features
+          pubsub: true,
+          sharding: true, // enable dir sharding
+        }
       });
       node.on('ready', () => {
         node.files.add({
