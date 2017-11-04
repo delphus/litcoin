@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Editor extends Component {
+class NewEditor extends Component {
   upload() {
     // upload to ipfs
   }
@@ -15,4 +15,4 @@ class Editor extends Component {
   }
 }
 
-export default Editor;
+export default NewEditor;
