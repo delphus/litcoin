@@ -1,0 +1,2 @@
+# litcoin
+lit
