@@ -37,7 +37,10 @@ class NewDocument extends Component {
   render() {
     return (
       <div>
-        <h2>Upload Text File</h2>
+        <h2>New Document</h2>
+        <p>
+          Please select a <strong>plain text</strong> file that you want peer edited. This will <strong>cost 20 LIT</strong>.
+        </p>
         <input type="file" onChange={this.handleFileUpload} />
         {this.state.status === "WAITING" && <p>Waiting for upload...</p>}
         {this.state.status === "UPLOADING" && <p>Uploading...</p>}
