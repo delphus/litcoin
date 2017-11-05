@@ -6,6 +6,7 @@ import Coins from './Coins';
 import NewDocument from './NewDocument';
 import Contact from './Contact';
 import PeerEditor from './PeerEditor'
+import Approval from './Approval';
 import logo from './logo.png';
 import './App.css';
 
@@ -24,6 +25,7 @@ class App extends Component {
               <Route path="/coins" component={Coins} />
               <Route path="/contact" component={Contact} />
               <Route path="/editor/:index" component={PeerEditor} />
+              <Route path="/approve/:index" component={Approval} />
             </div>
           </div>
           <nav>
