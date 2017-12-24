@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "component-diff": "^0.1.0",
     "es6-promisify": "^5.0.0",
-    "ethjs-contract": "^0.1.9",
-    "ethjs-query": "^0.3.1",
     "ipfs": "^0.26.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

@@ -23,12 +23,12 @@ export default class Coins extends React.Component {
     }
   }
   async componentDidMount() {
-    const [eth, litToken] = litman();
+    const [web3, litToken] = litman();
     this.setState({
-      blockNum: (await eth.blockNumber()).toString(),
-      account: await eth.coinbase(),
+      blockNum: web3.blockNumber.toString(),
+      account: web3.eth.accounts[0],
       // HACK: toNumber only preserves 53 bits -- if we have > like billions of LIT, this is problem
-      balance: (await litToken.balanceOf(await eth.coinbase()))[0].toNumber() / 100,
+      balance: (await litToken.balanceOf.call(web3.eth.accounts[0]))[0].toNumber() / 100,
       ready: true
     });
   }

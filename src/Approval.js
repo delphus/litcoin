@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import IPFS from 'ipfs';
-import promisify from "es6-promisify";
-import diff from "component-diff";
 import litman from './litman';
 import toString from 'stream-to-string';
 
@@ -49,21 +47,21 @@ class Approval extends Component {
     });
   }
   async componentDidMount() {
-    const [eth, litToken] = litman();
-    const doc = await litToken.getDocument(this.props.match.params.index);
+    const [, litToken] = await litman();
+    const doc = await litToken.getDocument.call(this.props.match.params.index);
     const suggested = await this.getFromIpfs(doc.editHashID);
     const text = await this.getFromIpfs(doc.hashID);
     this.setState({ text: text, suggested: suggested });
     this.setState({ status: "Done" })
   }
   async approve() {
-    const [eth, litToken] = litman();
-    litToken.approveEdit(
-      this.props.match.params.index, { from: await eth.coinbase() });
+    const [web3, litToken] = await litman();
+    litToken.approveEdit.sendTransaction(
+      this.props.match.params.index, { from: web3.eth.accounts[0] });
   }
   async reject() {
-    const [eth, litToken] = litman();
-    litToken.rejectEdit(this.props.match.params.index, { from: await eth.coinbase() })
+    const [web3, litToken] = await litman();
+    litToken.rejectEdit.sendTransaction(this.props.match.params.index, { from: web3.eth.accounts[0] });
   }
   render() {
     return (

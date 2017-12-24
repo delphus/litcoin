@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import IPFS from 'ipfs';
-import promisify from "es6-promisify";
-import diff from "component-diff";
 import litman from './litman';
 import toString from 'stream-to-string';
 
@@ -40,17 +38,17 @@ class PeerEditor extends Component {
       content: new Buffer(this.state.newText)
     }, async (err, files) => {
       const hash = files[0].hash;
-      const [eth, litToken] = litman();
+      const [web3, litToken] = await litman();
       console.log(hash);
-      litToken.addEdit(
+      litToken.addEdit.call(
         this.props.match.params.index,
-        hash, { from: await eth.coinbase() });
+        hash, { from: web3.eth.accounts[0] });
         this.setState({ status: "Uploaded." });
     });
   }
   async componentDidMount() {
-    const [eth, litToken] = litman();
-    const doc = await litToken.getDocument(this.props.match.params.index);
+    const [, litToken] = await litman();
+    const doc = await litToken.getDocument.call(this.props.match.params.index);
     console.log(doc);
     const text = await this.getFromIpfs(doc.hashID);
     this.setState({ text: text, newText: text });
@@ -61,7 +59,6 @@ class PeerEditor extends Component {
     this.setState({ newText: e.target.textContent });
   }
   async saveSuggestion() {
-    const [eth, litToken] = litman();
     this.uploadToIpfs();
   }
   render() {
