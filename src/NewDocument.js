@@ -29,8 +29,8 @@ class NewDocument extends Component {
         }, async (err, files) => {
           const hash = files[0].hash;
           this.setState({ status: "COMPLETE", hash: hash });
-          const [eth, litToken] = litman();
-          litToken.createDocument(this.props.match.params.uuid, hash, 0, { from: await eth.coinbase() });
+          const [web3, litToken] = litman();
+          litToken.createDocument(this.props.match.params.uuid, hash, 0, { from: web3.eth.coinbase() });
         });
       });
     };

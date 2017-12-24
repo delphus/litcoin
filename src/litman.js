@@ -1,18 +1,19 @@
-import Eth from 'ethjs-query';
-import EthContract from 'ethjs-contract';
+import LitCoin from './contracts/LitCoin.json';
+import { contract } from 'truffle-contract'; 
+import Web3 from 'web3';
 
-const ABI = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"editSessions","outputs":[{"name":"UUID","type":"string"},{"name":"hashID","type":"string"},{"name":"editHashID","type":"string"},{"name":"editor","type":"address"},{"name":"isEdited","type":"bool"},{"name":"approvals","type":"int8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"index","type":"uint256"}],"name":"rejectEdit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"index","type":"uint256"}],"name":"getDocument","outputs":[{"name":"UUID","type":"string"},{"name":"hashID","type":"string"},{"name":"editHashID","type":"string"},{"name":"editor","type":"address"},{"name":"isEdited","type":"bool"},{"name":"approvals","type":"int8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"UUID","type":"string"},{"name":"hashID","type":"string"},{"name":"len","type":"uint256"}],"name":"createDocument","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"index","type":"uint256"},{"name":"edit","type":"string"}],"name":"addEdit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"index","type":"uint256"}],"name":"approveEdit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"},{"name":"_extraData","type":"bytes"}],"name":"approveAndCall","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"index","type":"uint256"}],"name":"removeDocument","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":false,"stateMutability":"nonpayable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"}];
-const ADDRESS = "0xcb20dbe325064b6c9f45d42ed8449368fd67a5cd";
-
-export default function litman() {
-  let eth;
+function getWeb3() {
   if (typeof window.web3 !== 'undefined') {
-    eth = new Eth(window.web3.currentProvider);
+    return new Web3(window.web3.currentProvider);
   } else {
     console.log("No injected Web3 detected.");
-    eth = new Eth(new Eth.providers.HttpProvider("http://localhost:8545"));
+    return new Web3("http://localhost:8545");
   }
-  
-  const litToken = new EthContract(eth)(ABI).at(ADDRESS);
-  return [eth, litToken];
+}
+
+export default async function litman() {
+  const web3 = getWeb3();
+  const litcoinContract = contract(LitCoin);
+  const litcoin = await litcoinContract.deployed();
+  return [web3, litcoin];
 }
